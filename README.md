@@ -39,29 +39,25 @@ You can do this as follows:
 Output of templator:
 
 	func generate(n int) {
-	fmt.Printf("\n")
 	fmt.Printf("#include <stdio.h>\n")
-	fmt.Printf("\n")
 	fmt.Printf("int main(void) {\n")
 	// Loop to emit multiple printf()s.
 	for i := 0; i < n; i++ {
 	fmt.Printf("	printf(\"This is hello world number %v.\\n\");\n", i)
 	}
+	fmt.Printf("return 0;\n")
 	fmt.Printf("}\n")
-	fmt.Printf("\n")
 	}
 
 Output of calling generate(3):
 
-	
 	#include <stdio.h>
-	
 	int main(void) {
 		printf("This is hello world number 0.\n");
 		printf("This is hello world number 1.\n");
 		printf("This is hello world number 2.\n");
+		return 0;
 	}
-	
 
 Number of features to notice:
  - Replacement is textual, snippets within strings or other lexical elements still count.
