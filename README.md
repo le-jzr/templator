@@ -32,6 +32,7 @@ You can do this as follows:
 		// for i := 0; i < n; i++ {
 		printf("This is hello world number /* i */.\n");
 		// }
+		return 0;
 	}
 	
 	// }
