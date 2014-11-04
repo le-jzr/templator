@@ -23,10 +23,19 @@ Template example
 Suppose you want to generate C code that writes out a given number of hello worlds.
 You can do this as follows:
 
+	////+build ignore
+	//
+	// package main
+	// import "fmt"
+	// func main() {
+	// 	generate(3)
+	// }
+
+
 	// func generate(n int) {
-	
+
 	#include <stdio.h>
-	
+
 	int main(void) {
 		//// Loop to emit multiple printf()s.
 		// for i := 0; i < n; i++ {
@@ -34,23 +43,32 @@ You can do this as follows:
 		// }
 		return 0;
 	}
-	
+
 	// }
 
 Output of templator:
 
+	//+build ignore
+
+	package main
+	import "fmt"
+	func main() {
+		generate(3)
+	}
 	func generate(n int) {
-	fmt.Printf("#include <stdio.h>\n")
-	fmt.Printf("int main(void) {\n")
+	fmt.Print("#include <stdio.h>\n")
+	fmt.Print("int main(void) {\n")
 	// Loop to emit multiple printf()s.
 	for i := 0; i < n; i++ {
-	fmt.Printf("	printf(\"This is hello world number %v.\\n\");\n", i)
+	fmt.Print("\tprintf(\"This is hello world number ")
+	fmt.Printf("%v",  i )
+	fmt.Print(".\\n\");\n")
 	}
-	fmt.Printf("return 0;\n")
-	fmt.Printf("}\n")
+	fmt.Print("\treturn 0;\n")
+	fmt.Print("}\n")
 	}
 
-Output of calling generate(3):
+Output of calling the generated program:
 
 	#include <stdio.h>
 	int main(void) {
