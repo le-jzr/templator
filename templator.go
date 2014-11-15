@@ -63,6 +63,8 @@ func main() {
 		fmt.Fprintln(os.Stderr, err.Error())
 		os.Exit(1)
 	}
+	
+	lineStart := true
 
 	for len(file) > 0 {
 		idx1 := bytes.Index(file, []byte{'\n'})
@@ -71,10 +73,11 @@ func main() {
 
 		switch {
 		case idx1 != -1 && (idx2 == -1 || idx1 < idx2) && (idx3 == -1 || idx1 < idx3):
-			if idx1 > 0 {
+			if idx1 > 0 || !lineStart {
 				emitGenerator(file[:idx1+1])
 			}
 			file = file[idx1+1:]
+			lineStart = true
 			
 		case idx2 != -1 && (idx1 == -1 || idx2 < idx1) && (idx3 == -1 || idx2 < idx3):
 			emitGenerator(file[:idx2])
@@ -87,6 +90,7 @@ func main() {
 			
 			emitExpression(file[:idx4])
 			file = file[idx4+2:]
+			lineStart = false
 			
 		case idx3 != -1:
 			if idx1 == -1 {
@@ -97,7 +101,8 @@ func main() {
 				emitGenerator(file[:idx3])
 			}
 			emitCode(file[idx3+2:idx1])
-			file = file[idx1+1:] 
+			file = file[idx1+1:]
+			lineStart = true
 
 		default:
 			emitGenerator(file)
